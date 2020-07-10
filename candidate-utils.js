@@ -15,13 +15,13 @@ function generateCandidatePairInitialHistory(candidates){
   return candidatePairInitialHistory
 }
 
-function getRandomCandidate(candidates){
-  // const totalCandidates = candidates.length
-  // const randomIndex= Math.floor(Math.random()*totalCandidates)
-  return candidates[0]
-}
+// function getRandomCandidate(candidates){
+//   // const totalCandidates = candidates.length
+//   // const randomIndex= Math.floor(Math.random()*totalCandidates)
+//   return candidates[0]
+// }
 
 module.exports = {
   generateCandidatePairInitialHistory,
-  getRandomCandidate
+  // getRandomCandidate
 }

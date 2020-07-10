@@ -6,7 +6,7 @@ const CANDIDATE_PAIR_RESULT_PATH = path.join(__dirname, "candidate-pair-result.j
 const isResetHistory = process.argv[2] == "--reset"
 
 const { validateCandidatesData, validateCandidatePairHistory } = require("./validations")
-const { generateCandidatePairInitialHistory, getRandomCandidate } = require("./candidate-utils")
+const { generateCandidatePairInitialHistory } = require("./candidate-utils")
 const { DUMMY_CANDIDATE_OBJ } = require('./constants')
 let candidates = require("./candidates.json")
 let candidatePairHistory = require(CANDIDATE_PAIR_HISTORY_PATH)
@@ -38,7 +38,7 @@ function generateCandidatePairs(candidates, candidatePairHistory) {
       throw new Error("All pairs exhaused!. please run 'npm run start:reset' to delete candidate pair history")
     }
 
-    const partnerCandidate = getRandomCandidate(availableCandidates)
+    const partnerCandidate = availableCandidates[0]
     const candidatePair = [currentCandidate, partnerCandidate]
     candidatePairs.push(candidatePair)
     reservedCandidatesSet.add(currentCandidate)
