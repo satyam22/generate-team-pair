@@ -6,69 +6,70 @@ const CANDIDATE_PAIR_RESULT_PATH = path.join(__dirname, "candidate-pair-result.j
 const isResetHistory = process.argv[2] == "--reset"
 
 const { validateCandidatesData, validateCandidatePairHistory } = require("./validations")
-const { generateInitialHistory, getRandomCandidate } = require("./candidate-utils")
+const { generateCandidatePairInitialHistory, getRandomCandidate } = require("./candidate-utils")
 const { DUMMY_CANDIDATE_OBJ } = require('./constants')
-
 let candidates = require("./candidates.json")
 let candidatePairHistory = require(CANDIDATE_PAIR_HISTORY_PATH)
 
+
 function generateCandidatePairs(candidates, candidatePairHistory) {
   const candidatePairs = []
-  const reservedCandidateSet = new Set()
+  const reservedCandidatesSet = new Set()
   const totalCandidates = candidates.length
-  let itr = 0
-  while (itr < totalCandidates) {
-    const currentCandidate = candidates[itr]
-    const currentCandidateName = candidates[itr].name
-    if (reservedCandidateSet.has(currentCandidate)) {
-      itr++
+  let index = 0
+
+  while (index < totalCandidates) {
+    const currentCandidate = candidates[index]
+    const currentCandidateName = candidates[index].name
+    
+    if (reservedCandidatesSet.has(currentCandidate)) {
+      index++
       continue
     }
     const notAvailCandidatesArr = [...candidatePairHistory[currentCandidateName], currentCandidate]
     const availableCandidates = candidates.filter(
       (candidate) =>
         !notAvailCandidatesArr.some(
-          ({ name: notAvailCandName }) => candidate.name === notAvailCandName
-        ) && !reservedCandidateSet.has(candidate)
+          ({ name: notAvailCandidateName }) => candidate.name === notAvailCandidateName
+        ) && !reservedCandidatesSet.has(candidate)
     )
 
     if (availableCandidates.length === 0) {
       throw new Error("All pairs exhaused!. please run 'npm run start:reset' to delete candidate pair history")
     }
+
     const partnerCandidate = getRandomCandidate(availableCandidates)
     const candidatePair = [currentCandidate, partnerCandidate]
     candidatePairs.push(candidatePair)
-    reservedCandidateSet.add(currentCandidate)
-    reservedCandidateSet.add(partnerCandidate)
-    itr++
+    reservedCandidatesSet.add(currentCandidate)
+    reservedCandidatesSet.add(partnerCandidate)
+    index++
   }
   return candidatePairs
 }
 
 function getNewCandidatePairHistory(candidatePairs, candidatePairHistory, candidates) {
   validateCandidatePairHistory(candidatePairHistory, candidates)
-
   const newCandidatePairHistory = candidatePairHistory
 
   for (let candidatePair of candidatePairs) {
-    const firstPartner = candidatePair[0]
-    const secondPartner = candidatePair[1]
-    const firstPartnerName = firstPartner.name
-    const secondPartnerName = secondPartner.name
-    if (!firstPartnerName || !secondPartnerName) {
+    const [ firstCandidate, secondCandidate ] = candidatePair
+    const firstCandidateName = firstCandidate.name
+    const secondCandidateName = secondCandidate.name
+    if (!firstCandidateName || !secondCandidateName) {
       throw new Error(
         "Failed to generate new candidate pair history. candidate name must be non-empty"
       )
     }
-    newCandidatePairHistory[firstPartnerName].push(secondPartner)
-    newCandidatePairHistory[secondPartnerName].push(firstPartner)
+    newCandidatePairHistory[firstCandidateName].push(secondCandidate)
+    newCandidatePairHistory[secondCandidateName].push(firstCandidate)
   }
 
   return newCandidatePairHistory
 }
 
 function initiateCandidatePairHistory() {
-  const initialHistory = generateInitialHistory(candidates)
+  const initialHistory = generateCandidatePairInitialHistory(candidates)
   fs.writeFileSync(CANDIDATE_PAIR_HISTORY_PATH, JSON.stringify(initialHistory, null, 2))
   candidatePairHistory = initialHistory
 }
@@ -100,7 +101,6 @@ try {
   fs.writeFileSync(CANDIDATE_PAIR_RESULT_PATH, JSON.stringify(candidatePairs, null, 2))
   console.log("######## Candidate pairs generated successfully ########")
   console.log("candidate pairs:: ", candidatePairs)
-  // console.log("new candidate pair history:: ", newCandidatePairHistory)
 } catch (err) {
   //TODO: Error handling
   console.error(err)

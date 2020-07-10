@@ -1,27 +1,27 @@
 const { DUMMY_CANDIDATE_OBJ } = require('./constants')
 
-function generateInitialHistory(candidates){
-  const initialHistory = {}
+function generateCandidatePairInitialHistory(candidates){
+  const candidatePairInitialHistory = {}
   const candidateNames = candidates.map(({ name }) => name)
 
   for(candidateName of candidateNames) {
-    initialHistory[candidateName] = []
+    candidatePairInitialHistory[candidateName] = []
   }
 
   if(candidates.length % 2 !== 0){
-    initialHistory[DUMMY_CANDIDATE_OBJ.name] = []
+    candidatePairInitialHistory[DUMMY_CANDIDATE_OBJ.name] = []
   }
 
-  return initialHistory
+  return candidatePairInitialHistory
 }
 
 function getRandomCandidate(candidates){
-  const totalCandidates = candidates.length
-  const randCandidateIndex = Math.floor(Math.random()*totalCandidates)
-  return candidates[randCandidateIndex]
+  // const totalCandidates = candidates.length
+  // const randomIndex= Math.floor(Math.random()*totalCandidates)
+  return candidates[0]
 }
 
 module.exports = {
-  generateInitialHistory,
+  generateCandidatePairInitialHistory,
   getRandomCandidate
 }

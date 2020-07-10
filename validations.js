@@ -13,7 +13,7 @@ function validateCandidatesData(candidates) {
   }
 
   const candidateNames = candidates.map(({ name }) => name)
-  const  isCandidateNameInvalid = candidateNames.some(cName => (typeof(cName) !== "string" || cName === ""))
+  const  isCandidateNameInvalid = candidateNames.some(name => (typeof(name) !== "string" || name === ""))
 
   if(isCandidateNameInvalid) {
     throw new Error('Invalid data. Each candidate must have a non-empty name in candidates array')
