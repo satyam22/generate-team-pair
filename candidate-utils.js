@@ -7,7 +7,7 @@ function generateInitialHistory(candidates){
   }
 
   if(candidates.length % 2 !== 0){
-    initialHistory["dummyPerson"] = []
+    initialHistory["dummyCandidate"] = []
   }
 
   return initialHistory

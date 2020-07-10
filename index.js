@@ -1,11 +1,13 @@
 const fs = require("fs")
 const path = require("path")
-const { validateCandidatesData, validateCandidatePairHistory } = require("./validations")
-const { generateInitialHistory, getRandomCandidate } = require("./candidate-utils")
 
 const CANDIDATE_PAIR_HISTORY_PATH = path.join(__dirname, "candidate-pair-history.json")
 const CANDIDATE_PAIR_RESULT_PATH = path.join(__dirname, "candidate-pair-result.json")
-const candidates = require("./candidates.json")
+const isResetHistory = process.argv[2] == "--reset"
+
+const { validateCandidatesData, validateCandidatePairHistory } = require("./validations")
+const { generateInitialHistory, getRandomCandidate } = require("./candidate-utils")
+let candidates = require("./candidates.json")
 let candidatePairHistory = require(CANDIDATE_PAIR_HISTORY_PATH)
 
 function generateCandidatePairs(candidates, candidatePairHistory) {
@@ -22,19 +24,17 @@ function generateCandidatePairs(candidates, candidatePairHistory) {
     }
     const notAvailCandidatesArr = [...candidatePairHistory[currentCandidateName], currentCandidate]
     const availableCandidates = candidates.filter(
-      ({ fullName }) =>
+      (candidate) =>
         !notAvailCandidatesArr.some(
-          ({ fullName: notAvailCandFullName }) => fullName === notAvailCandFullName
-        )
+          ({ fullName: notAvailCandFullName }) => candidate.fullName === notAvailCandFullName
+        ) && !reservedCandidateSet.has(candidate)
     )
 
     if (availableCandidates.length === 0) {
-      throw new Error("All pairs exhaused!. please delete candidate pair history")
+      throw new Error("All pairs exhaused!. please run 'npm run start:reset' to delete candidate pair history")
     }
-    console.log(availableCandidates)
     const partnerCandidate = getRandomCandidate(availableCandidates)
     const candidatePair = [currentCandidate, partnerCandidate]
-    // console.log("candidate pair:: ", candidatePair);
     candidatePairs.push(candidatePair)
     reservedCandidateSet.add(currentCandidate)
     reservedCandidateSet.add(partnerCandidate)
@@ -71,13 +71,23 @@ function initiateCandidatePairHistory() {
   candidatePairHistory = initialHistory
 }
 
+const dummyCandidate = {
+  fullName: 'dummyCandidate'
+}
+
 try {
+  if(candidates.length % 2 !== 0){
+    candidates.push(dummyCandidate)
+  }
+
   validateCandidatesData(candidates)
   if (
     !candidatePairHistory ||
     typeof candidatePairHistory !== "object" ||
-    Object.keys(candidatePairHistory).length === 0
+    Object.keys(candidatePairHistory).length === 0 ||
+    isResetHistory
   ) {
+    console.log("###### Reseting candidates pair history #######")
     initiateCandidatePairHistory()
   }
 
@@ -89,7 +99,8 @@ try {
   )
   fs.writeFileSync(CANDIDATE_PAIR_HISTORY_PATH, JSON.stringify(newCandidatePairHistory, null, 2))
   fs.writeFileSync(CANDIDATE_PAIR_RESULT_PATH, JSON.stringify(candidatePairs, null, 2))
-  // console.log("candidate pairs:: ", candidatePairs)
+  console.log("######## Candidate pairs generated successfully ########")
+  console.log("candidate pairs:: ", candidatePairs)
   // console.log("new candidate pair history:: ", newCandidatePairHistory)
 } catch (err) {
   //TODO: Error handling

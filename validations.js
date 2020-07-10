@@ -22,8 +22,6 @@ function validateCandidatesData(candidates) {
   if(isDuplicateValsInArray(candidateNames)) {
     throw new Error('Invalid data. Each candidate must have a unique name in candidate array')
   }
-  console.log(isCandidateNameInvalid)
-  console.log(candidateNames.sort())
   
 }
 

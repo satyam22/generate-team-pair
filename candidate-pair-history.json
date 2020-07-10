@@ -1,1 +1,134 @@
-{}
+{
+  "satyam": [
+    {
+      "fullName": "payal",
+      "age": 25
+    },
+    {
+      "fullName": "shivam",
+      "age": 25
+    },
+    {
+      "fullName": "rahul",
+      "age": 25
+    },
+    {
+      "fullName": "deepak",
+      "age": 25
+    },
+    {
+      "fullName": "piyush",
+      "age": 25
+    }
+  ],
+  "shivam": [
+    {
+      "fullName": "rahul",
+      "age": 25
+    },
+    {
+      "fullName": "satyam",
+      "age": 25
+    },
+    {
+      "fullName": "deepak",
+      "age": 25
+    },
+    {
+      "fullName": "piyush",
+      "age": 25
+    },
+    {
+      "fullName": "payal",
+      "age": 25
+    }
+  ],
+  "payal": [
+    {
+      "fullName": "satyam",
+      "age": 25
+    },
+    {
+      "fullName": "deepak",
+      "age": 25
+    },
+    {
+      "fullName": "piyush",
+      "age": 25
+    },
+    {
+      "fullName": "rahul",
+      "age": 25
+    },
+    {
+      "fullName": "shivam",
+      "age": 25
+    }
+  ],
+  "piyush": [
+    {
+      "fullName": "deepak",
+      "age": 25
+    },
+    {
+      "fullName": "rahul",
+      "age": 25
+    },
+    {
+      "fullName": "payal",
+      "age": 25
+    },
+    {
+      "fullName": "shivam",
+      "age": 25
+    },
+    {
+      "fullName": "satyam",
+      "age": 25
+    }
+  ],
+  "rahul": [
+    {
+      "fullName": "shivam",
+      "age": 25
+    },
+    {
+      "fullName": "piyush",
+      "age": 25
+    },
+    {
+      "fullName": "satyam",
+      "age": 25
+    },
+    {
+      "fullName": "payal",
+      "age": 25
+    },
+    {
+      "fullName": "deepak",
+      "age": 25
+    }
+  ],
+  "deepak": [
+    {
+      "fullName": "piyush",
+      "age": 25
+    },
+    {
+      "fullName": "payal",
+      "age": 25
+    },
+    {
+      "fullName": "shivam",
+      "age": 25
+    },
+    {
+      "fullName": "satyam",
+      "age": 25
+    },
+    {
+      "fullName": "rahul",
+      "age": 25
+    }
+  ]
+}
