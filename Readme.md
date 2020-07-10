@@ -12,7 +12,7 @@ Purpose of this script is to generate team pairs from list of candidates. It kee
  - Every candidate's `name` must be unique.
  - Run `npm start` to generate Candidate pairs.
  - Run `npm run start:reset` to reset candidate pair history and generate pair.
- - Generated result can be find in `candidate-pair-result` file.
+ - Generated result can be find in `candidate-pair-result.json` file.
 
 
 ### Note
