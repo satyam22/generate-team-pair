@@ -1,0 +1,26 @@
+{
+  "satyam": [
+    "piyush"
+  ],
+  "shivam": [
+    "payal"
+  ],
+  "payal": [
+    "shivam"
+  ],
+  "piyush": [
+    "satyam"
+  ],
+  "rahul": [
+    "mohan"
+  ],
+  "raja": [
+    "Dummy Candidate"
+  ],
+  "mohan": [
+    "rahul"
+  ],
+  "Dummy Candidate": [
+    "raja"
+  ]
+}

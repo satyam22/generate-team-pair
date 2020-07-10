@@ -5,12 +5,23 @@
       "age": 25
     },
     {
-      "name": "Dummy Candidate"
+      "name": "piyush",
+      "age": 25
     }
   ],
   [
     {
       "name": "shivam",
+      "age": 25
+    },
+    {
+      "name": "payal",
+      "age": 25
+    }
+  ],
+  [
+    {
+      "name": "rahul",
       "age": 25
     },
     {
@@ -20,22 +31,11 @@
   ],
   [
     {
-      "name": "payal",
-      "age": 25
-    },
-    {
       "name": "raja",
       "age": 25
-    }
-  ],
-  [
-    {
-      "name": "piyush",
-      "age": 25
     },
     {
-      "name": "rahul",
-      "age": 25
+      "name": "Dummy Candidate"
     }
   ]
 ]
