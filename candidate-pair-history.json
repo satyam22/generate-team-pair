@@ -1,133 +1,37 @@
 {
   "satyam": [
     {
-      "fullName": "payal",
-      "age": 25
-    },
-    {
-      "fullName": "shivam",
-      "age": 25
-    },
-    {
-      "fullName": "rahul",
-      "age": 25
-    },
-    {
-      "fullName": "deepak",
-      "age": 25
-    },
-    {
-      "fullName": "piyush",
+      "name": "shivam",
       "age": 25
     }
   ],
   "shivam": [
     {
-      "fullName": "rahul",
-      "age": 25
-    },
-    {
-      "fullName": "satyam",
-      "age": 25
-    },
-    {
-      "fullName": "deepak",
-      "age": 25
-    },
-    {
-      "fullName": "piyush",
-      "age": 25
-    },
-    {
-      "fullName": "payal",
+      "name": "satyam",
       "age": 25
     }
   ],
   "payal": [
     {
-      "fullName": "satyam",
-      "age": 25
-    },
-    {
-      "fullName": "deepak",
-      "age": 25
-    },
-    {
-      "fullName": "piyush",
-      "age": 25
-    },
-    {
-      "fullName": "rahul",
-      "age": 25
-    },
-    {
-      "fullName": "shivam",
+      "name": "rahul",
       "age": 25
     }
   ],
   "piyush": [
     {
-      "fullName": "deepak",
-      "age": 25
-    },
-    {
-      "fullName": "rahul",
-      "age": 25
-    },
-    {
-      "fullName": "payal",
-      "age": 25
-    },
-    {
-      "fullName": "shivam",
-      "age": 25
-    },
-    {
-      "fullName": "satyam",
+      "name": "deepak",
       "age": 25
     }
   ],
   "rahul": [
     {
-      "fullName": "shivam",
-      "age": 25
-    },
-    {
-      "fullName": "piyush",
-      "age": 25
-    },
-    {
-      "fullName": "satyam",
-      "age": 25
-    },
-    {
-      "fullName": "payal",
-      "age": 25
-    },
-    {
-      "fullName": "deepak",
+      "name": "payal",
       "age": 25
     }
   ],
   "deepak": [
     {
-      "fullName": "piyush",
-      "age": 25
-    },
-    {
-      "fullName": "payal",
-      "age": 25
-    },
-    {
-      "fullName": "shivam",
-      "age": 25
-    },
-    {
-      "fullName": "satyam",
-      "age": 25
-    },
-    {
-      "fullName": "rahul",
+      "name": "piyush",
       "age": 25
     }
   ]

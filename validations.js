@@ -12,11 +12,11 @@ function validateCandidatesData(candidates) {
     throw new Error('Insufficient data. Candidates array must have atleast two object')
   }
 
-  const candidateNames = candidates.map(({ fullName }) => fullName)
+  const candidateNames = candidates.map(({ name }) => name)
   const  isCandidateNameInvalid = candidateNames.some(cName => (typeof(cName) !== "string" || cName === ""))
 
   if(isCandidateNameInvalid) {
-    throw new Error('Invalid data. Each candidate must have a non-empty fullName in candidates array')
+    throw new Error('Invalid data. Each candidate must have a non-empty name in candidates array')
   } 
 
   if(isDuplicateValsInArray(candidateNames)) {
@@ -26,7 +26,7 @@ function validateCandidatesData(candidates) {
 }
 
 function validateCandidatePairHistory(candidatePairHistory, candidates){
-  const candidateNames = candidates.map(({ fullName }) => fullName)
+  const candidateNames = candidates.map(({ name }) => name)
   
   for(let candidateName of candidateNames){
     if(!Array.isArray(candidatePairHistory[candidateName])) {

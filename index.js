@@ -7,6 +7,7 @@ const isResetHistory = process.argv[2] == "--reset"
 
 const { validateCandidatesData, validateCandidatePairHistory } = require("./validations")
 const { generateInitialHistory, getRandomCandidate } = require("./candidate-utils")
+
 let candidates = require("./candidates.json")
 let candidatePairHistory = require(CANDIDATE_PAIR_HISTORY_PATH)
 
@@ -17,7 +18,7 @@ function generateCandidatePairs(candidates, candidatePairHistory) {
   let itr = 0
   while (itr < totalCandidates) {
     const currentCandidate = candidates[itr]
-    const currentCandidateName = candidates[itr].fullName
+    const currentCandidateName = candidates[itr].name
     if (reservedCandidateSet.has(currentCandidate)) {
       itr++
       continue
@@ -26,7 +27,7 @@ function generateCandidatePairs(candidates, candidatePairHistory) {
     const availableCandidates = candidates.filter(
       (candidate) =>
         !notAvailCandidatesArr.some(
-          ({ fullName: notAvailCandFullName }) => candidate.fullName === notAvailCandFullName
+          ({ name: notAvailCandName }) => candidate.name === notAvailCandName
         ) && !reservedCandidateSet.has(candidate)
     )
 
@@ -51,11 +52,11 @@ function getNewCandidatePairHistory(candidatePairs, candidatePairHistory, candid
   for (let candidatePair of candidatePairs) {
     const firstPartner = candidatePair[0]
     const secondPartner = candidatePair[1]
-    const firstPartnerName = firstPartner.fullName
-    const secondPartnerName = secondPartner.fullName
+    const firstPartnerName = firstPartner.name
+    const secondPartnerName = secondPartner.name
     if (!firstPartnerName || !secondPartnerName) {
       throw new Error(
-        "Failed to generate new candidate pair history. candidate fullName must be non-empty"
+        "Failed to generate new candidate pair history. candidate name must be non-empty"
       )
     }
     newCandidatePairHistory[firstPartnerName].push(secondPartner)
@@ -70,9 +71,8 @@ function initiateCandidatePairHistory() {
   fs.writeFileSync(CANDIDATE_PAIR_HISTORY_PATH, JSON.stringify(initialHistory, null, 2))
   candidatePairHistory = initialHistory
 }
-
 const dummyCandidate = {
-  fullName: 'dummyCandidate'
+  name: 'Dummy Candidate'
 }
 
 try {

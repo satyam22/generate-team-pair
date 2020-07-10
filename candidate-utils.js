@@ -1,6 +1,6 @@
 function generateInitialHistory(candidates){
   const initialHistory = {}
-  const candidateNames = candidates.map(({ fullName }) => fullName)
+  const candidateNames = candidates.map(({ name }) => name)
 
   for(candidateName of candidateNames) {
     initialHistory[candidateName] = []

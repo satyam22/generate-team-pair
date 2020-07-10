@@ -1,31 +1,31 @@
 [
   [
     {
-      "fullName": "satyam",
+      "name": "satyam",
       "age": 25
     },
     {
-      "fullName": "piyush",
+      "name": "shivam",
       "age": 25
     }
   ],
   [
     {
-      "fullName": "shivam",
+      "name": "payal",
       "age": 25
     },
     {
-      "fullName": "payal",
+      "name": "rahul",
       "age": 25
     }
   ],
   [
     {
-      "fullName": "rahul",
+      "name": "piyush",
       "age": 25
     },
     {
-      "fullName": "deepak",
+      "name": "deepak",
       "age": 25
     }
   ]
