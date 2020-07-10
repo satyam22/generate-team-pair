@@ -1,3 +1,5 @@
+const { DUMMY_CANDIDATE_OBJ } = require('./constants')
+
 function generateInitialHistory(candidates){
   const initialHistory = {}
   const candidateNames = candidates.map(({ name }) => name)
@@ -7,7 +9,7 @@ function generateInitialHistory(candidates){
   }
 
   if(candidates.length % 2 !== 0){
-    initialHistory["dummyCandidate"] = []
+    initialHistory[DUMMY_CANDIDATE_OBJ.name] = []
   }
 
   return initialHistory

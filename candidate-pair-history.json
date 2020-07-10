@@ -1,37 +1,36 @@
 {
   "satyam": [
     {
-      "name": "shivam",
-      "age": 25
+      "name": "Dummy Candidate"
     }
   ],
   "shivam": [
-    {
-      "name": "satyam",
-      "age": 25
-    }
-  ],
-  "payal": [
-    {
-      "name": "rahul",
-      "age": 25
-    }
-  ],
-  "piyush": [
-    {
-      "name": "deepak",
-      "age": 25
-    }
-  ],
-  "rahul": [
     {
       "name": "payal",
       "age": 25
     }
   ],
-  "deepak": [
+  "payal": [
+    {
+      "name": "shivam",
+      "age": 25
+    }
+  ],
+  "piyush": [
+    {
+      "name": "rahul",
+      "age": 25
+    }
+  ],
+  "rahul": [
     {
       "name": "piyush",
+      "age": 25
+    }
+  ],
+  "Dummy Candidate": [
+    {
+      "name": "satyam",
       "age": 25
     }
   ]

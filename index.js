@@ -7,6 +7,7 @@ const isResetHistory = process.argv[2] == "--reset"
 
 const { validateCandidatesData, validateCandidatePairHistory } = require("./validations")
 const { generateInitialHistory, getRandomCandidate } = require("./candidate-utils")
+const { DUMMY_CANDIDATE_OBJ } = require('./constants')
 
 let candidates = require("./candidates.json")
 let candidatePairHistory = require(CANDIDATE_PAIR_HISTORY_PATH)
@@ -71,13 +72,11 @@ function initiateCandidatePairHistory() {
   fs.writeFileSync(CANDIDATE_PAIR_HISTORY_PATH, JSON.stringify(initialHistory, null, 2))
   candidatePairHistory = initialHistory
 }
-const dummyCandidate = {
-  name: 'Dummy Candidate'
-}
+
 
 try {
   if(candidates.length % 2 !== 0){
-    candidates.push(dummyCandidate)
+    candidates.push(DUMMY_CANDIDATE_OBJ)
   }
 
   validateCandidatesData(candidates)
