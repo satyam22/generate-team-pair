@@ -64,6 +64,7 @@ function main(candidates, candidatesHistory) {
   writeToFile(CANDIDATES_HISTORY_PATH, updatedHistory)
 
   console.log("###### Candidates pair generated successfylly! #######")
+  console.log(candidatesPair)
 }
 
 
