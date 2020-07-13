@@ -18,41 +18,37 @@ function generateCandidatesPair(candidates, candidatesHistory) {
   let results = [];
   const allCandidatesName = getCandidatesName(candidates);
   let candidatesName = allCandidatesName;
-  let retryCounter = 0
   while (candidatesName.length > 0) {
     const [currentCandidateName, ...otherCandidatesName] = candidatesName;
     const currentCandidateHistory = candidatesHistory[currentCandidateName];
     const availableCandidatesName = arrayDifference(otherCandidatesName, currentCandidateHistory);
+    if (availableCandidatesName.length === 0) {
+      return null;
+    }
 
-    if (
-      availableCandidatesName.length === 0 &&
-      currentCandidateHistory.length < allCandidatesName.length - 1
-      && retryCounter < 10
-    ) {
-      candidatesName = allCandidatesName;
-      results = [];
-      retryCounter++;
-    }
-    else if(availableCandidatesName.length === 0){
-      throw new Error('No more pairs possible. Please try "npm run start:reset" to reset the history and create pair')
-    }
-     else {
-      const partnerCandidateName = getRandomItemfromArray(availableCandidatesName);
-      const currentCandidate = getCandidateByName(candidates, currentCandidateName);
-      const partnerCandidate = getCandidateByName(candidates, partnerCandidateName);
-      results.push([currentCandidate, partnerCandidate]);
+    const partnerCandidateName = getRandomItemfromArray(availableCandidatesName);
+    const currentCandidate = getCandidateByName(candidates, currentCandidateName);
+    const partnerCandidate = getCandidateByName(candidates, partnerCandidateName);
+    results.push([currentCandidate, partnerCandidate]);
 
-      candidatesName = arrayDifference(candidatesName, [
-        currentCandidateName,
-        partnerCandidateName,
-      ]);
-    }
+    candidatesName = arrayDifference(candidatesName, [currentCandidateName, partnerCandidateName]);
   }
   return results;
 }
 
 function getCandidateByName(candidates, candidateName) {
   return candidates.find(({ name }) => name === candidateName);
+}
+
+function generateCandidatesPairWrapper(candidates, candidatesHistory) {
+  for (let i = 0; i < 50; i++) {
+    let candidatesPair = generateCandidatesPair(candidates, candidatesHistory);
+    if (candidatesPair !== null) {
+      return candidatesPair;
+    }
+    console.log('combination: ', i)
+  }
+  throw new Error('No more pairs possible!. Please run "npm run start:reset" to reset the history and generate pairs')
 }
 
 function main() {
@@ -72,7 +68,7 @@ function main() {
   validateCandidatesData(candidates);
   validateCandidatesHistory(candidatesHistory, candidates);
 
-  const candidatesPair = generateCandidatesPair(candidates, candidatesHistory);
+  const candidatesPair = generateCandidatesPairWrapper(candidates, candidatesHistory);
   const updatedHistory = getCandidatesUpdatedHistory(candidatesHistory, candidatesPair);
 
   writeToFile(CANDIDATES_RESULT_PATH, candidatesPair);
