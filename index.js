@@ -1,107 +1,81 @@
-const fs = require("fs")
-const path = require("path")
+const path = require('path');
+const CANDIDATES_HISTORY_PATH = path.join(__dirname, 'candidates-history.json');
+const CANDIDATES_RESULT_PATH = path.join(__dirname, 'candidates-result.json');
+const isResetHistory = process.argv[2] == '--reset';
 
-const CANDIDATE_PAIR_HISTORY_PATH = path.join(__dirname, "candidate-pair-history.json")
-const CANDIDATE_PAIR_RESULT_PATH = path.join(__dirname, "candidate-pair-result.json")
-const isResetHistory = process.argv[2] == "--reset"
+let candidatesHistory = require(CANDIDATES_HISTORY_PATH);
+const candidates = require('./candidates.json');
+const { validateCandidatesData, validateCandidatesHistory } = require('./candidate-validations');
+const {
+  initializeCandidatesHistory,
+  getCandidatesUpdatedHistory,
+  getCandidatesName,
+} = require('./candidate-util');
+const { getRandomItemfromArray, arrayDifference, writeToFile } = require('./utils');
+const { DUMMY_CANDIDATE_OBJ } = require('./constants');
 
-const { validateCandidatesData, validateCandidatePairHistory } = require("./validations")
-const { generateCandidatePairInitialHistory } = require("./candidate-utils")
-const { DUMMY_CANDIDATE_OBJ } = require('./constants')
-let candidates = require("./candidates.json")
-let candidatePairHistory = require(CANDIDATE_PAIR_HISTORY_PATH)
-
-
-function generateCandidatePairs(candidates, candidatePairHistory) {
-  const candidatePairs = []
-  const reservedCandidatesSet = new Set()
-  const totalCandidates = candidates.length
-  let index = 0
-
-  while (index < totalCandidates) {
-    const currentCandidate = candidates[index]
-    const currentCandidateName = candidates[index].name
-    
-    if (reservedCandidatesSet.has(currentCandidate)) {
-      index++
-      continue
-    }
-    const notAvailCandidatesArr = [...candidatePairHistory[currentCandidateName], currentCandidate]
-    const availableCandidates = candidates.filter(
-      (candidate) =>
-        !notAvailCandidatesArr.some(
-          ({ name: notAvailCandidateName }) => candidate.name === notAvailCandidateName
-        ) && !reservedCandidatesSet.has(candidate)
-    )
-
-    if (availableCandidates.length === 0) {
-      throw new Error("All pairs exhaused!. please run 'npm run start:reset' to delete candidate pair history")
+function generateCandidatesPair(candidates, candidatesHistory) {
+  let results = [];
+  const allCandidatesName = getCandidatesName(candidates);
+  let candidatesName = allCandidatesName;
+  while (candidatesName.length > 0) {
+    const [currentCandidateName, ...otherCandidatesName] = candidatesName;
+    const currentCandidateHistory = candidatesHistory[currentCandidateName];
+    const availableCandidatesName = arrayDifference(otherCandidatesName, currentCandidateHistory);
+    if (availableCandidatesName.length === 0) {
+      return null;
     }
 
-    const partnerCandidate = availableCandidates[0]
-    const candidatePair = [currentCandidate, partnerCandidate]
-    candidatePairs.push(candidatePair)
-    reservedCandidatesSet.add(currentCandidate)
-    reservedCandidatesSet.add(partnerCandidate)
-    index++
+    const partnerCandidateName = getRandomItemfromArray(availableCandidatesName);
+    const currentCandidate = getCandidateByName(candidates, currentCandidateName);
+    const partnerCandidate = getCandidateByName(candidates, partnerCandidateName);
+    results.push([currentCandidate, partnerCandidate]);
+
+    candidatesName = arrayDifference(candidatesName, [currentCandidateName, partnerCandidateName]);
   }
-  return candidatePairs
+  return results;
 }
 
-function getNewCandidatePairHistory(candidatePairs, candidatePairHistory, candidates) {
-  validateCandidatePairHistory(candidatePairHistory, candidates)
-  const newCandidatePairHistory = candidatePairHistory
+function getCandidateByName(candidates, candidateName) {
+  return candidates.find(({ name }) => name === candidateName);
+}
 
-  for (let candidatePair of candidatePairs) {
-    const [ firstCandidate, secondCandidate ] = candidatePair
-    const firstCandidateName = firstCandidate.name
-    const secondCandidateName = secondCandidate.name
-    if (!firstCandidateName || !secondCandidateName) {
-      throw new Error(
-        "Failed to generate new candidate pair history. candidate name must be non-empty"
-      )
+function generateCandidatesPairWrapper(candidates, candidatesHistory) {
+  for (let i = 0; i < 50; i++) {
+    let candidatesPair = generateCandidatesPair(candidates, candidatesHistory);
+    if (candidatesPair !== null) {
+      return candidatesPair;
     }
-    newCandidatePairHistory[firstCandidateName].push(secondCandidate)
-    newCandidatePairHistory[secondCandidateName].push(firstCandidate)
+    console.log('combination: ', i)
   }
-
-  return newCandidatePairHistory
+  throw new Error('No more pairs possible!. Please run "npm run start:reset" to reset the history and generate pairs')
 }
 
-function initiateCandidatePairHistory() {
-  const initialHistory = generateCandidatePairInitialHistory(candidates)
-  fs.writeFileSync(CANDIDATE_PAIR_HISTORY_PATH, JSON.stringify(initialHistory, null, 2))
-  candidatePairHistory = initialHistory
-}
-
-
-try {
-  if(candidates.length % 2 !== 0){
-    candidates.push(DUMMY_CANDIDATE_OBJ)
+function main() {
+  if (candidates.length % 2 !== 0) {
+    candidates.push(DUMMY_CANDIDATE_OBJ);
   }
-
-  validateCandidatesData(candidates)
   if (
-    !candidatePairHistory ||
-    typeof candidatePairHistory !== "object" ||
-    Object.keys(candidatePairHistory).length === 0 ||
+    !candidatesHistory ||
+    typeof candidatesHistory !== 'object' ||
+    Object.keys(candidatesHistory).length === 0 ||
     isResetHistory
   ) {
-    console.log("###### Reseting candidates pair history #######")
-    initiateCandidatePairHistory()
+    console.log('###### Reseting candidates history #######');
+    candidatesHistory = initializeCandidatesHistory(candidates);
   }
 
-  const candidatePairs = generateCandidatePairs(candidates, candidatePairHistory)
-  const newCandidatePairHistory = getNewCandidatePairHistory(
-    candidatePairs,
-    candidatePairHistory,
-    candidates
-  )
-  fs.writeFileSync(CANDIDATE_PAIR_HISTORY_PATH, JSON.stringify(newCandidatePairHistory, null, 2))
-  fs.writeFileSync(CANDIDATE_PAIR_RESULT_PATH, JSON.stringify(candidatePairs, null, 2))
-  console.log("######## Candidate pairs generated successfully ########")
-  console.log("candidate pairs:: ", candidatePairs)
-} catch (err) {
-  //TODO: Error handling
-  console.error(err)
+  validateCandidatesData(candidates);
+  validateCandidatesHistory(candidatesHistory, candidates);
+
+  const candidatesPair = generateCandidatesPairWrapper(candidates, candidatesHistory);
+  const updatedHistory = getCandidatesUpdatedHistory(candidatesHistory, candidatesPair);
+
+  writeToFile(CANDIDATES_RESULT_PATH, candidatesPair);
+  writeToFile(CANDIDATES_HISTORY_PATH, updatedHistory);
+
+  console.log('###### Candidates pair generated successfylly! #######');
+  console.log(candidatesPair);
 }
+
+main();

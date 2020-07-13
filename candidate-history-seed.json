@@ -1,0 +1,20 @@
+{
+  "Abhishek Khanna": ["Manoj Desai"],
+  "Manoj Desai": ["Abhishek Khanna"],
+  "Naveen Kumar": ["Mahek Jariwala"],
+  "Mahek Jariwala": ["Naveen Kumar"],
+  "Rajat Vijay": ["Harshit Shrivastava"],
+  "Harshit Shrivastava": ["Rajat Vijay"],
+  "Raunak Kumar": ["Bruno Dmello"],
+  "Bruno Dmello": ["Raunak Kumar"],
+  "Sandeep Gahlawat": ["Arpit Bansal"],
+  "Arpit Bansal": ["Sandeep Gahlawat"],
+  "Sonu Tiwari": ["Chanchal Upadhyay"],
+  "Chanchal Upadhyay": ["Sonu Tiwari"],
+  "Ajinkya Ganoo": ["Anurag Khandelwal"],
+  "Anurag Khandelwal": ["Ajinkya Ganoo"],
+  "Amit Kaushik": ["Salil Sharma"],
+  "Salil Sharma": ["Amit Kaushik"],
+  "Yash Priyam": ["Yella Venkatesh"],
+  "Yella Venkatesh": ["Yash Priyam"]
+}
