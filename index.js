@@ -9,30 +9,44 @@ const { validateCandidatesData, validateCandidatesHistory } = require('./candida
 const {
   initializeCandidatesHistory,
   getCandidatesUpdatedHistory,
-  getCandidatesName
+  getCandidatesName,
 } = require('./candidate-util');
-const {
-  getRandomItemfromArray,
-  arrayDifference,
-  writeToFile,
-} = require('./utils');
+const { getRandomItemfromArray, arrayDifference, writeToFile } = require('./utils');
 const { DUMMY_CANDIDATE_OBJ } = require('./constants');
 
 function generateCandidatesPair(candidates, candidatesHistory) {
-  const results = [];
-  let candidatesName = getCandidatesName(candidates);
-
+  let results = [];
+  const allCandidatesName = getCandidatesName(candidates);
+  let candidatesName = allCandidatesName;
+  let retryCounter = 0
   while (candidatesName.length > 0) {
     const [currentCandidateName, ...otherCandidatesName] = candidatesName;
     const currentCandidateHistory = candidatesHistory[currentCandidateName];
     const availableCandidatesName = arrayDifference(otherCandidatesName, currentCandidateHistory);
-    const partnerCandidateName = getRandomItemfromArray(availableCandidatesName);
 
-    const currentCandidate = getCandidateByName(candidates, currentCandidateName);
-    const partnerCandidate = getCandidateByName(candidates, partnerCandidateName);
-    results.push([currentCandidate, partnerCandidate]);
+    if (
+      availableCandidatesName.length === 0 &&
+      currentCandidateHistory.length < allCandidatesName.length - 1
+      && retryCounter < 10
+    ) {
+      candidatesName = allCandidatesName;
+      results = [];
+      retryCounter++;
+    }
+    else if(availableCandidatesName.length === 0){
+      throw new Error('No more pairs possible. Please try "npm run start:reset" to reset the history and create pair')
+    }
+     else {
+      const partnerCandidateName = getRandomItemfromArray(availableCandidatesName);
+      const currentCandidate = getCandidateByName(candidates, currentCandidateName);
+      const partnerCandidate = getCandidateByName(candidates, partnerCandidateName);
+      results.push([currentCandidate, partnerCandidate]);
 
-    candidatesName = arrayDifference(candidatesName, [currentCandidateName, partnerCandidateName]);
+      candidatesName = arrayDifference(candidatesName, [
+        currentCandidateName,
+        partnerCandidateName,
+      ]);
+    }
   }
   return results;
 }
@@ -59,7 +73,6 @@ function main() {
   validateCandidatesHistory(candidatesHistory, candidates);
 
   const candidatesPair = generateCandidatesPair(candidates, candidatesHistory);
-  console.log(candidatesPair);
   const updatedHistory = getCandidatesUpdatedHistory(candidatesHistory, candidatesPair);
 
   writeToFile(CANDIDATES_RESULT_PATH, candidatesPair);
