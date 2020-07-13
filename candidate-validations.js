@@ -1,4 +1,4 @@
-const { getCandidatesName } = require('./utils');
+const { getCandidatesName } = require('./candidate-util');
 
 function isDuplicateValsInArray(arr) {
   const duplicateVals = arr.filter((item, index) => arr.indexOf(item) !== index);

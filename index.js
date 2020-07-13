@@ -1,33 +1,32 @@
 const path = require('path');
-
 const CANDIDATES_HISTORY_PATH = path.join(__dirname, 'candidates-history.json');
 const CANDIDATES_RESULT_PATH = path.join(__dirname, 'candidates-result.json');
-const isResetHistory = process.argv[2] == "--reset";
+const isResetHistory = process.argv[2] == '--reset';
 
-const candidatesHistory = require(CANDIDATES_HISTORY_PATH);
+let candidatesHistory = require(CANDIDATES_HISTORY_PATH);
 const candidates = require('./candidates.json');
-const { validateCandidatesData, validateCandidatesHistory } = require('./validations');
+const { validateCandidatesData, validateCandidatesHistory } = require('./candidate-validations');
 const {
-  getCandidatesName,
-  getRandomCandidate,
-  arrayDifference,
-  getCandidateByName,
   initializeCandidatesHistory,
   getCandidatesUpdatedHistory,
+  getCandidatesName
+} = require('./candidate-util');
+const {
+  getRandomItemfromArray,
+  arrayDifference,
   writeToFile,
 } = require('./utils');
 const { DUMMY_CANDIDATE_OBJ } = require('./constants');
-
 
 function generateCandidatesPair(candidates, candidatesHistory) {
   const results = [];
   let candidatesName = getCandidatesName(candidates);
 
-  while (candidatesName.length) {
+  while (candidatesName.length > 0) {
     const [currentCandidateName, ...otherCandidatesName] = candidatesName;
     const currentCandidateHistory = candidatesHistory[currentCandidateName];
     const availableCandidatesName = arrayDifference(otherCandidatesName, currentCandidateHistory);
-    const partnerCandidateName = getRandomCandidate(availableCandidatesName);
+    const partnerCandidateName = getRandomItemfromArray(availableCandidatesName);
 
     const currentCandidate = getCandidateByName(candidates, currentCandidateName);
     const partnerCandidate = getCandidateByName(candidates, partnerCandidateName);
@@ -38,9 +37,11 @@ function generateCandidatesPair(candidates, candidatesHistory) {
   return results;
 }
 
+function getCandidateByName(candidates, candidateName) {
+  return candidates.find(({ name }) => name === candidateName);
+}
 
-
-function main(candidates, candidatesHistory) {
+function main() {
   if (candidates.length % 2 !== 0) {
     candidates.push(DUMMY_CANDIDATE_OBJ);
   }
@@ -50,7 +51,7 @@ function main(candidates, candidatesHistory) {
     Object.keys(candidatesHistory).length === 0 ||
     isResetHistory
   ) {
-    console.log("###### Reseting candidates history #######")
+    console.log('###### Reseting candidates history #######');
     candidatesHistory = initializeCandidatesHistory(candidates);
   }
 
@@ -58,14 +59,14 @@ function main(candidates, candidatesHistory) {
   validateCandidatesHistory(candidatesHistory, candidates);
 
   const candidatesPair = generateCandidatesPair(candidates, candidatesHistory);
+  console.log(candidatesPair);
   const updatedHistory = getCandidatesUpdatedHistory(candidatesHistory, candidatesPair);
 
   writeToFile(CANDIDATES_RESULT_PATH, candidatesPair);
-  writeToFile(CANDIDATES_HISTORY_PATH, updatedHistory)
+  writeToFile(CANDIDATES_HISTORY_PATH, updatedHistory);
 
-  console.log("###### Candidates pair generated successfylly! #######")
-  console.log(candidatesPair)
+  console.log('###### Candidates pair generated successfylly! #######');
+  console.log(candidatesPair);
 }
 
-
-main(candidates, candidatesHistory)
+main();
