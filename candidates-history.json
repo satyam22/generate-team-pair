@@ -1,20 +1,110 @@
 {
-  "Abhishek Khanna": ["Manoj Desai"],
-  "Manoj Desai": ["Abhishek Khanna"],
-  "Naveen Kumar": ["Mahek Jariwala"],
-  "Mahek Jariwala": ["Naveen Kumar"],
-  "Rajat Vijay": ["Harshit Shrivastava"],
-  "Harshit Shrivastava": ["Rajat Vijay"],
-  "Raunak Kumar": ["Bruno Dmello"],
-  "Bruno Dmello": ["Raunak Kumar"],
-  "Sandeep Gahlawat": ["Arpit Bansal"],
-  "Arpit Bansal": ["Sandeep Gahlawat"],
-  "Sonu Tiwari": ["Chanchal Upadhyay"],
-  "Chanchal Upadhyay": ["Sonu Tiwari"],
-  "Ajinkya Ganoo": ["Anurag Khandelwal"],
-  "Anurag Khandelwal": ["Ajinkya Ganoo"],
-  "Amit Kaushik": ["Salil Sharma"],
-  "Salil Sharma": ["Amit Kaushik"],
-  "Yash Priyam": ["Yella Venkatesh"],
-  "Yella Venkatesh": ["Yash Priyam"]
+  "Abhishek Khanna": [
+    "Manoj Desai",
+    "Mahek Jariwala",
+    "Harshit Shrivastava",
+    "Sonu Tiwari"
+  ],
+  "Manoj Desai": [
+    "Abhishek Khanna",
+    "Rajat Vijay",
+    "Yash Priyam",
+    "Mahek Jariwala"
+  ],
+  "Naveen Kumar": [
+    "Mahek Jariwala",
+    "Chanchal Upadhyay",
+    "Ajinkya Ganoo",
+    "Arpit Bansal"
+  ],
+  "Mahek Jariwala": [
+    "Naveen Kumar",
+    "Abhishek Khanna",
+    "Sonu Tiwari",
+    "Manoj Desai"
+  ],
+  "Rajat Vijay": [
+    "Harshit Shrivastava",
+    "Manoj Desai",
+    "Anurag Khandelwal",
+    "Ajinkya Ganoo"
+  ],
+  "Harshit Shrivastava": [
+    "Rajat Vijay",
+    "Yash Priyam",
+    "Abhishek Khanna",
+    "Bruno Dmello"
+  ],
+  "Raunak Kumar": [
+    "Bruno Dmello",
+    "Amit Kaushik",
+    "Yella Venkatesh",
+    "Salil Sharma"
+  ],
+  "Bruno Dmello": [
+    "Raunak Kumar",
+    "Arpit Bansal",
+    "Amit Kaushik",
+    "Harshit Shrivastava"
+  ],
+  "Sandeep Gahlawat": [
+    "Arpit Bansal",
+    "Anurag Khandelwal",
+    "Salil Sharma",
+    "Yash Priyam"
+  ],
+  "Arpit Bansal": [
+    "Sandeep Gahlawat",
+    "Bruno Dmello",
+    "Chanchal Upadhyay",
+    "Naveen Kumar"
+  ],
+  "Sonu Tiwari": [
+    "Chanchal Upadhyay",
+    "Yella Venkatesh",
+    "Mahek Jariwala",
+    "Abhishek Khanna"
+  ],
+  "Chanchal Upadhyay": [
+    "Sonu Tiwari",
+    "Naveen Kumar",
+    "Arpit Bansal",
+    "Amit Kaushik"
+  ],
+  "Ajinkya Ganoo": [
+    "Anurag Khandelwal",
+    "Salil Sharma",
+    "Naveen Kumar",
+    "Rajat Vijay"
+  ],
+  "Anurag Khandelwal": [
+    "Ajinkya Ganoo",
+    "Sandeep Gahlawat",
+    "Rajat Vijay",
+    "Yella Venkatesh"
+  ],
+  "Amit Kaushik": [
+    "Salil Sharma",
+    "Raunak Kumar",
+    "Bruno Dmello",
+    "Chanchal Upadhyay"
+  ],
+  "Salil Sharma": [
+    "Amit Kaushik",
+    "Ajinkya Ganoo",
+    "Sandeep Gahlawat",
+    "Raunak Kumar"
+  ],
+  "Yash Priyam": [
+    "Yella Venkatesh",
+    "Harshit Shrivastava",
+    "Manoj Desai",
+    "Sandeep Gahlawat"
+  ],
+  "Yella Venkatesh": [
+    "Yash Priyam",
+    "Sonu Tiwari",
+    "Raunak Kumar",
+    "Anurag Khandelwal"
+  ]
 }
